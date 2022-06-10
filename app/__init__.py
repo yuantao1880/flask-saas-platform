@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_login import LoginManager
+
+
 from conf.config import config
 import logging
 from logging.config import fileConfig
@@ -8,8 +10,13 @@ import os
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
-# fileConfig('conf/log-app.conf')
 
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+log_path = os.path.join(base_dir, "logs")
+
+if not os.path.exists(log_path):
+    os.mkdir(log_path)
+fileConfig('conf/log-app.conf')
 def get_logger(name):
     return logging.getLogger(name)
 
